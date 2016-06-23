@@ -1,3 +1,4 @@
+/*
 var mongo = require('mongodb'),
   Server = mongo.Server,
   Db = mongo.Db;
@@ -9,10 +10,13 @@ var onErr = function(err, callback) {
   db.close();
   callback(err);
 };
+*/
 
-exports.userlist = function(uid, callback) {
-  db.open(function(err, db) {
-	var collection  = db.collection('users');
+var db = require('../config/mongodb');
+
+exports.userlist = function(username, callback) {
+//  db.open(function(err, db) {
+	var collection  = db.get().collection('users');
 	collection.find().toArray(function(err, docs){
 	if(err){
 	console.log(err);
@@ -21,7 +25,7 @@ exports.userlist = function(uid, callback) {
 
 		var intCount = docs.length;
 		console.log('User Count: ' +intCount);
-	
+
 	if(intCount>0){
 	  var strJson = "";
 	for (var i=0; i<intCount;){
@@ -32,25 +36,18 @@ exports.userlist = function(uid, callback) {
 	 strJson += ',';
      	 }
 	}
-	//strJson = '[' + strJson + ']';
-        strJson = '{"count":' + intCount + ',"users":[' + strJson + ']' + '}';
+  strJson = '{"count":' + intCount + ',"users":[' + strJson + ']' + '}';
 
 	console.log(strJson);
 	callback("", JSON.parse(strJson));
 	}
-//	else{
-//	onErr(err,callback);
-//	}
-		
+
+
 	} else{
 		console.log('No documents found defined criteria.');
 	}
-        db.close();
 
 });
-});
+//});//end db.open
 
 };
-
-
-
