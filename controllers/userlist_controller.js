@@ -1,5 +1,5 @@
 var template = require('../views/template-main');
-var mongo_data = require('../models/user-mongo-data');
+var mongo_data = require('../models/userlist_model');
 exports.get = function(req, res) {
 
 

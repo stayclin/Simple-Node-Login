@@ -29,7 +29,7 @@ exports.userlist = function(username, callback) {
 	if(intCount>0){
 	  var strJson = "";
 	for (var i=0; i<intCount;){
-	 strJson += '{"Username":"' + docs[i].User + '", "Password":"'+docs[i].Password + '"}';
+	 strJson += '{"Username":"' + docs[i].Username + '", "Password":"'+docs[i].Password + '"}';
 	 console.log(strJson);
 	 i=i+1;
 	 if(i<intCount){

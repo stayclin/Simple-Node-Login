@@ -8,6 +8,30 @@ exports.get = function(req,res){
 	console.log("user entered user: " +user);
 	console.log("user entered password: " + password);
 
+mongo_data.checkUser(user, password, function(err,item){
+	console.log('checckkk');
+	//console.log("check user: "+checkUser.redirect);
+	console.dir(item);
+	//console.log(item.User);
+	if(item){
+      console.log(item.Username);
+	    console.log('user authenticated');
+      res.redirect('/profile');
+  }
+  else{
+      console.log('user failed');
+	//res.send(500,'showAlert')
+      res.redirect('/login');
+  }
+});
+
+/*
+mongo_data.addUser(user, password, function(err,addUser){
+	console.log('gooo');
+
+});
+*/
+
 /*
 mongo_data.userlist(user,password,function(err,userlist){
 	console.log('userlistttt');
@@ -22,29 +46,4 @@ mongo_data.getAllRecords(function(err,getAllRecords){
 });
 */
 
-mongo_data.checkUser(user, password, function(err,item){
-	console.log('checckkk');
-	//console.log("check user: "+checkUser.redirect);
-	console.dir(item);
-	//console.log(item.User);
-	if(item){
-           console.log(item.User);
-	   console.log('user authenticated');
-           res.redirect('/profile');
-        }
-        else{
-           console.log('user failed');
-	//res.send(500,'showAlert')
-           res.redirect('/login');
-        }
-});
-
-/*
-mongo_data.addUser(user, password, function(err,addUser){
-	console.log('gooo');
-
-});
-*/
-
 };
-

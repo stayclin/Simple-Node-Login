@@ -15,56 +15,17 @@ var db = require('../config/mongodb');
 
 console.log("user_model called");
 
-exports.userlist = function(user,password,callback){
-//db.open(function(err, db){
-var collection  = db.get().collection('users');
-console.log('hello');
-console.log(user);
-console.log(password);
-
-	collection.find().toArray(function(err, docs){
-	if(err){
-	console.log(err);
-	} else if (docs.length){
-	console.log('Found:', docs);
-
-		var intCount = docs.length;
-		console.log('User Count: ' +intCount);
-
-	if(intCount>0){
-	  var strJson = "";
-	for (var i=0; i<intCount;){
-	 strJson += '{"Username":"' + docs[i].User + '", "Password":"'+docs[i].Password + '"}';
-	 console.log(strJson);
-	 i=i+1;
-	 if(i<intCount){
-	 strJson += ',';
-     	 }
-	}
-  strJson = '{"count":' + intCount + ',"users":[' + strJson + ']' + '}';
-
-	console.log(strJson);
-	callback("", JSON.parse(strJson));
-
-	}
-	}
-	});
-//});//end db open
-};//end userlist
-
-
 exports.checkUser = function(user,password,callback){
 	//db.open(function(err, db){
 	var collection = db.get().collection("users");
 	console.log("user entered: " + user);
-	collection.findOne({"User": user}, function(err, item){
-	console.log(item);
-	var redirect='';
+	collection.findOne({"Username": user}, function(err, item){
+	console.log('item: '+item);
 	//check if user exists
 	if(item){
-	   console.log("user: "+item.User+" found!");
+	   console.log("user: "+item.Username+" found!");
 
-	   var userdb = item.User;
+	   var userdb = item.Username;
 	   var passworddb = item.Password;
 	   console.log("db user: "+userdb);
 	   console.log("db pass: "+passworddb);
@@ -87,20 +48,15 @@ exports.checkUser = function(user,password,callback){
 };
 
 exports.addUser = function(user,password,callback){
-
-
-db.open(function(err, db){
+//db.open(function(err, db){
 console.log('db opened');
-
 var collection = db.get().collection("users");
-
 
 console.log('hello');
 console.log(user);
 console.log(password);
 
-collection.save({User:"Kim", Password:"Lima"},{w:1}, callback);
-
+collection.save({"Username":user, "Password":password},{w:1}, callback);
 
         collection.find().toArray(function(err, docs){
         if(err){
@@ -114,7 +70,7 @@ collection.save({User:"Kim", Password:"Lima"},{w:1}, callback);
         if(intCount>0){
           var strJson = "";
         for (var i=0; i<intCount;){
-         strJson += '{"Username":"' + docs[i].User + '", "Password":"'+docs[i].Password + '"}';
+         strJson += '{"Username":"' + docs[i].Username + '", "Password":"'+docs[i].Password + '"}';
          console.log(strJson);
          i=i+1;
          if(i<intCount){
@@ -130,7 +86,7 @@ collection.save({User:"Kim", Password:"Lima"},{w:1}, callback);
         }
         }
         });
-});//end db open
+//});//end db open
 
 };//end userlist
 
@@ -155,7 +111,7 @@ console.log("yoooo");
         if(intCount>0){
           var strJson = "";
         for (var i=0; i<intCount;){
-         strJson += '{"Username":"' + docs[i].User + '", "Password":"'+docs[i].Password + '"}';
+         strJson += '{"Username":"' + docs[i].Username + '", "Password":"'+docs[i].Password + '"}';
          console.log(strJson);
          i=i+1;
          if(i<intCount){
@@ -174,3 +130,43 @@ console.log("yoooo");
 });
 
 };
+
+/*
+exports.userlist = function(user,password,callback){
+//db.open(function(err, db){
+var collection  = db.get().collection('users');
+console.log('hello');
+console.log(user);
+console.log(password);
+
+	collection.find().toArray(function(err, docs){
+	if(err){
+	console.log(err);
+	} else if (docs.length){
+	console.log('Found:', docs);
+
+		var intCount = docs.length;
+		console.log('User Count: ' +intCount);
+
+	if(intCount>0){
+	  var strJson = "";
+	for (var i=0; i<intCount;){
+	 strJson += '{"Username":"' + docs[i].Username + '", "Password":"'+docs[i].Password + '"}';
+	 console.log(strJson);
+	 i=i+1;
+	 if(i<intCount){
+	 strJson += ',';
+     	 }
+	}
+  strJson = '{"count":' + intCount + ',"users":[' + strJson + ']' + '}';
+
+	console.log(strJson);
+	callback("", JSON.parse(strJson));
+
+	}
+	}
+	});
+//});//end db open
+};//end userlist
+
+*/
