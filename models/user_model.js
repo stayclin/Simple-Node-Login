@@ -1,23 +1,10 @@
-/*var mongo = require('mongodb'),
-   Db = mongo.Db,
-   Server = mongo.Server;
-var server = new Server('localhost', 27017, {
-   auto_reconnect: true
-   });
-var db = new Db('usertest', server);
-var onErr = function(err, callback) {
-   db.close();
-   callback(err);
-};
-*/
 var qs = require('querystring');
 var db = require('../config/mongodb');
 
 console.log("user_model called");
+var collection = db.get().collection("users");
 
 exports.checkUser = function(user,password,callback){
-	//db.open(function(err, db){
-	var collection = db.get().collection("users");
 	console.log("user entered: " + user);
 	collection.findOne({"Username": user}, function(err, item){
 	console.log('item: '+item);
@@ -44,95 +31,27 @@ exports.checkUser = function(user,password,callback){
 	      callback('user-not-found');
 	}
 	});
-//}); //end db.open
 };
 
 exports.addUser = function(user,password,callback){
-//db.open(function(err, db){
-console.log('db opened');
-var collection = db.get().collection("users");
 
 console.log('hello');
 console.log(user);
 console.log(password);
 
-collection.save({"Username":user, "Password":password},{w:1}, callback);
-
-        collection.find().toArray(function(err, docs){
-        if(err){
-        console.log(err);
-        } else if (docs.length){
-        console.log('Found:', docs);
-
-                var intCount = docs.length;
-                console.log('User Count: ' +intCount);
-
-        if(intCount>0){
-          var strJson = "";
-        for (var i=0; i<intCount;){
-         strJson += '{"Username":"' + docs[i].Username + '", "Password":"'+docs[i].Password + '"}';
-         console.log(strJson);
-         i=i+1;
-         if(i<intCount){
-         strJson += ',';
-         }
-        }
-        //strJson = '[' + strJson + ']';
-        strJson = '{"count":' + intCount + ',"users":[' + strJson + ']' + '}';
-
-        console.log(strJson);
-        callback("", JSON.parse(strJson));
-
-        }
-        }
-        });
-//});//end db open
-
-};//end userlist
-
-
-
-exports.getAllRecords = function(callback)
-{
-
-db.open(function(err, db){
-console.log('db opened again');
-var collection = db.get().collection("users");
-console.log("yoooo");
-        collection.find().toArray(function(err, docs){
-        if(err){
-        console.log(err);
-        } else if (docs.length){
-        console.log('Found:', docs);
-
-                var intCount = docs.length;
-                console.log('User Count: ' +intCount);
-
-        if(intCount>0){
-          var strJson = "";
-        for (var i=0; i<intCount;){
-         strJson += '{"Username":"' + docs[i].Username + '", "Password":"'+docs[i].Password + '"}';
-         console.log(strJson);
-         i=i+1;
-         if(i<intCount){
-         strJson += ',';
-         }
-        }
-        //strJson = '[' + strJson + ']';
-        strJson = '{"count":' + intCount + ',"users":[' + strJson + ']' + '}';
-
-        console.log(strJson);
-        callback("", JSON.parse(strJson));
-
-	}
-	}
-	});
+collection.findOne({"Username": user}, function(err, item){
+console.log("found one");
+if(item){
+	console.log("username already exists.");
+}
+else{
+	collection.save({"Username":user, "Password":password},{w:1}, callback);
+	console.log('user added');
+}
 });
+};//end adduser
 
-};
-
-/*
-exports.userlist = function(user,password,callback){
+exports.getAllUsers = function(user,password,callback){
 //db.open(function(err, db){
 var collection  = db.get().collection('users');
 console.log('hello');
@@ -168,5 +87,3 @@ console.log(password);
 	});
 //});//end db open
 };//end userlist
-
-*/

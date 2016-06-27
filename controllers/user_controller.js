@@ -24,26 +24,4 @@ mongo_data.checkUser(user, password, function(err,item){
       res.redirect('/login');
   }
 });
-
-/*
-mongo_data.addUser(user, password, function(err,addUser){
-	console.log('gooo');
-
-});
-*/
-
-/*
-mongo_data.userlist(user,password,function(err,userlist){
-	console.log('userlistttt');
-//	console.log(userlist);
-	console.log("user count: "+userlist.count);
-
-});
-*/
-/*
-mongo_data.getAllRecords(function(err,getAllRecords){
-	console.log('testtinnnggg');
-});
-*/
-
 };
