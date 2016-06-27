@@ -1,9 +1,8 @@
 var template = require('../views/template-main');
-var mongo_data = require('../models/userlist_model');
+var mongo_data = require('../models/user_model.js');
+
 exports.get = function(req, res) {
-
-
-mongo_data.userlist("Albert", function(err, userlist){
+mongo_data.userlist("",function(err, userlist){
 console.log('model called after controller');
 console.log(userlist);
 console.log(userlist.count);

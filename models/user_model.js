@@ -51,13 +51,7 @@ else{
 });
 };//end adduser
 
-exports.getAllUsers = function(user,password,callback){
-//db.open(function(err, db){
-var collection  = db.get().collection('users');
-console.log('hello');
-console.log(user);
-console.log(password);
-
+exports.userlist = function(username, callback) {
 	collection.find().toArray(function(err, docs){
 	if(err){
 	console.log(err);
@@ -81,9 +75,12 @@ console.log(password);
 
 	console.log(strJson);
 	callback("", JSON.parse(strJson));
+	}
 
+	} else{
+		console.log('No documents found defined criteria.');
 	}
-	}
-	});
-//});//end db open
-};//end userlist
+
+});
+
+};
